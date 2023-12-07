@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Wishlist</title>
+</head>
+<body>
+<h1>Edit Wishlist</h1>
+<form th:action="@{/wishlist/edit}" th:object="${wishlist}" method="post">
+  <input type="hidden" th:field="*{id}" />
+
+  <label for="name">Wishlist Name:</label>
+  <input type="text" id="name" th:field="*{name}" required><br><br>
+
+  <label for="description">Description:</label>
+  <textarea id="description" th:field="*{description}" required></textarea><br><br>
+
+  <div th:each="item, itemIndex : *{items}">
+    <label th:text="${'Item ' + (itemIndex.index + 1) + ' Price: '}"></label>
+    <input type="text" th:field="*{items[__${itemIndex.index}__].itemPrice}" required><br><br>
+  </div>
+
+  <input type="submit" value="Save Changes">
+</form>
+</body>
+</html>

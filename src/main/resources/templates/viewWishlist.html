@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>View Wishlist</title>
+</head>
+<body>
+<h1>Wishlist Details</h1>
+
+<div th:if="${wishlist}">
+  <h2 th:text="${wishlist.name}"></h2>
+  <p th:text="${wishlist.description}"></p>
+  <!-- Add other wishlist attributes as needed -->
+
+  <h3>Items:</h3>
+  <ul>
+    <li th:each="item : ${wishlist.items}">
+      <span th:text="${item.name}"></span>
+      <!-- Display other item details -->
+    </li>
+  </ul>
+</div>
+
+<div th:unless="${wishlist}">
+  <p>No wishlist found or invalid wishlist ID.</p>
+</div>
+</body>
+</html>
+>

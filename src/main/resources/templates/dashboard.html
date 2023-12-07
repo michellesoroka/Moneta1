@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Wishlist Dashboard</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      padding: 20px;
+      font-family: 'Monaco', monospace;
+      background-color: #ffc0cb;
+      background-image: radial-gradient(#fff 15%, transparent 16%), radial-gradient(#fff 15%, transparent 16%);
+      background-size: 30px 30px;
+      background-position: 0 0, 15px 15px;
+    }
+    .dashboard-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .welcome-heading {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #ff1493;
+      text-transform: uppercase;
+    }
+    .create-wishlist-btn {
+      display: block;
+      width: 200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .wishlists-container {
+            display: inline-block;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        .wishlists-heading {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+    p {
+      color: #333;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+<div class="dashboard-container">
+  <h1 class="welcome-heading">Welcome to Moneta!</h1>
+  <p th:text="${message}"></p>
+  <a th:href="@{/wishlist/create}" class="btn btn-primary create-wishlist-btn">Create a New Wishlist</a>
+</div>
+<div class="wishlists-container">
+  <h2 class="wishlists-heading">Your Wishlists</h2>
+  <ul>
+    <li th:each="wishlist : ${wishlists}">
+      <a th:href="@{'/wishlist/' + ${wishlist.id}}">
+        <span th:text="${wishlist.name}"></span>
+      </a>
+      <a th:href="@{'/wishlist/edit/' + ${wishlist.id}}">(Edit)</a>
+    </li>
+  </ul>
+</div>
+<div class="total-price">
+  <h3>Total Price of All Items: $<span th:text="${totalPrice}"></span></h3>
+</div>
+
+<!--<div>-->
+<!--  <h2>Existing Wishlists:</h2>-->
+<!--  <ul>-->
+<!--    <li th:each="wishlist : ${wishlists}">-->
+<!--      <a th:href="@{'/wishlist/' + ${wishlist.id}}"> &lt;!&ndash; Link to each wishlist &ndash;&gt;-->
+<!--        <span th:text="${wishlist.name}"></span> &lt;!&ndash; Display wishlist name &ndash;&gt;-->
+<!--      </a>-->
+<!--    </li>-->
+<!--  </ul>-->
+<!--</div>-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
