@@ -10,7 +10,7 @@ public class WishlistItem {
     private String description;
     private String itemName;
     private String link;
-    private double itemPrice;
+    private static double itemPrice;
 
     public String getId() {
         return id;
@@ -44,12 +44,16 @@ public class WishlistItem {
         this.link = link;
     }
 
-    public double getItemPrice() {
-        return itemPrice;
-    }
+//    public static double getItemPrice() {
+//        return itemPrice;
+//    }
 
     public void setItemPrice(double itemPrice) {
         this.itemPrice = itemPrice;
+    }
+
+    public static double getitemPrice(Wishlist.Item item) {
+        return itemPrice;
     }
 }
 

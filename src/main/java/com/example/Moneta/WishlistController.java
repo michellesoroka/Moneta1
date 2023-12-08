@@ -43,6 +43,8 @@ public class WishlistController {
 
     @PostMapping("/wishlist/save")
     public String saveWishlist(@ModelAttribute("newWishlist") Wishlist newWishlist) {
+        Double totalItemPrice = wishlistService.calculateTotalItemPrice(newWishlist);
+        newWishlist.setTotalItemPrice(totalItemPrice);
         wishlistService.createWishlist(newWishlist);
         return "redirect:/dashboard"; // Redirect to a dashboard or any other page
     }
@@ -68,5 +70,3 @@ public class WishlistController {
 //        return "redirect:/dashboard"; // Redirect to a dashboard or any other page
 //    }
 //}
-
-

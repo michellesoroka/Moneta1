@@ -27,18 +27,33 @@ public class Wishlist {
     public void setItems(List<Item> items) {
         this.items = items;
     }
-    private Double totalPrice;
+    private Double totalItemPrice;
 
     private String word;
 
-//    public List<WishlistItem> getItems() {
+    public void setTotalItemPrice(Double totalItemPrice) {
+        this.totalItemPrice = totalItemPrice;
+    }
+
+    public double getTotalItemPrice() {
+        return totalItemPrice;
+    }
+
+    //    public List<WishlistItem> getItems() {
 //        return items;
 //    }
     public static class Item {
-    private String itemName;
-    private double itemPrice;
-    private String description;
-    private String link;
+        private String itemName;
+
+        public void setItemPrice(double itemPrice) {
+            this.itemPrice = itemPrice;
+        }
+
+        private double itemPrice;
+
+        private double totalItemPrice;
+        private String description;
+        private String link;
         public String getItemName() {
             return itemName;
         }
@@ -47,12 +62,16 @@ public class Wishlist {
             this.itemName = itemName;
         }
 
+        public double getTotalItemPrice() {
+            return totalItemPrice;
+        }
+
         public double getItemPrice() {
             return itemPrice;
         }
 
-        public void setItemPrice(double itemPrice) {
-            this.itemPrice = itemPrice;
+        public void setTotalItemPrice(double itemPrice) {
+            this.totalItemPrice = itemPrice;
         }
 
         public String getDescription() {
@@ -71,6 +90,9 @@ public class Wishlist {
             this.link = link;
         }
 
+        public double getitemPrice() {
+            return itemPrice;
+        }
     }
 
     public String getName() {
@@ -88,14 +110,23 @@ public class Wishlist {
 //    public void removeItem(WishlistItem item) {
 //        this.items.remove(item);
 //    }
+//
+//    public Double getTotalCost() {
+//        return totalCost;
+//    }
+//
+//    public void setTotalCost(Double totalCost) {
+//        this.totalCost = totalCost;
+//    }
 
-    public Double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
+//    public Double totalCost;
+//    public Double getTotalPrice() {
+//        return totalPrice;
+//    }
+//
+//    public void setTotalPrice(Double totalPrice) {
+//        this.totalPrice = totalPrice;
+//    }
 
 //    public void updateTotalPrice() {
 //        double sum = 0.0;
