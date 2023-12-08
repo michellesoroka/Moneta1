@@ -3,20 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <title>Create Wishlist</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
 <h1>Create a New Wishlist</h1>
 <form th:action="@{/wishlist/save}" th:object="${newWishlist}" method="post">
-    <label for="name">Wishlist Name:</label>
-    <input type="text" id="name" th:field="*{name}" required><br><br>
+    <!-- Field for wishlist name -->
+    <label for="wishlistName">Wishlist Name:</label>
+    <input type="text" id="wishlistName" th:field="*{name}" required><br><br>
 
-    <label for="description">Description:</label>
-    <textarea id="description" th:field="*{description}" required></textarea><br><br>
+    <!-- Table for wishlist items -->
+    <table id="wishlistItems">
+        <thead>
+        <tr>
+            <th>Item Name</th>
+            <th>Item Price</th>
+            <th>Description</th>
+            <th>Link</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="index : ${#numbers.sequence(0, 2)}">
+            <td><input type="text" th:field="*{items[__${index}__].itemName}" required></td>
+            <td><input type="text" th:field="*{items[__${index}__].itemPrice}" required></td>
+            <td><input type="text" th:field="*{items[__${index}__].description}" required></td>
+            <td><input type="text" th:field="*{items[__${index}__].link}" required></td>
+        </tr>
+        </tbody>
+    </table>
 
-    <label for="itemPrice">Item Price:</label>
-    <input type="text" id="itemPrice" name="newItemPrice" required><br><br>
+    <!-- Button to add new row for wishlist item -->
+    <button type="button" onclick="addRow()">Add Item</button><br><br>
 
     <input type="submit" value="Create Wishlist">
 </form>
+
+<script>
+    function addRow() {
+        var table = document.getElementById('wishlistItems').getElementsByTagName('tbody')[0];
+        var newRow = table.insertRow(table.rows.length);
+
+        var cell1 = newRow.insertCell(0);
+        var cell2 = newRow.insertCell(1);
+        var cell3 = newRow.insertCell(2);
+        var cell4 = newRow.insertCell(3);
+
+        cell1.innerHTML = '<input type="text" th:field="*{items[__${#lists.size(newWishlist.items)}__].itemName}" required>';
+        cell2.innerHTML = '<input type="text" th:field="*{items[__${#lists.size(newWishlist.items)}__].itemPrice}" required>';
+        cell3.innerHTML = '<input type="text" th:field="*{items[__${#lists.size(newWishlist.items)}__].description}" required>';
+        cell4.innerHTML = '<input type="text" th:field="*{items[__${#lists.size(newWishlist.items)}__].link}" required>';
+    }
+</script>
 </body>
 </html>
+
+

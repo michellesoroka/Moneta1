@@ -3,27 +3,14 @@ package com.example.Moneta;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "WishlistItems")
+@Document(collection = "wishlistItems")
 public class WishlistItem {
     @Id
     private String id;
     private String description;
     private String itemName;
-
-    public void setItemPrice(double itemPrice) {
-        this.itemPrice = itemPrice;
-    }
-
+    private String link;
     private double itemPrice;
-
-
-    public double getPrice() {
-        return itemPrice;
-    }
-
-    public void setPrice(double itemPrice) {
-        this.itemPrice = itemPrice;
-    }
 
     public String getId() {
         return id;
@@ -49,8 +36,21 @@ public class WishlistItem {
         this.itemName = itemName;
     }
 
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
 
     public double getItemPrice() {
         return itemPrice;
     }
+
+    public void setItemPrice(double itemPrice) {
+        this.itemPrice = itemPrice;
+    }
 }
+
+
