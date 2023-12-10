@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Wishlist Dashboard</title>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <style>
+    <meta charset="UTF-8">
+    <title>Wishlist Dashboard</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
     body {
+    position: relative;
       padding: 20px;
       font-family: 'Monaco', monospace;
       background-color: #ffc0cb;
@@ -27,6 +28,24 @@
       color: #ff1493;
       text-transform: uppercase;
     }
+        .piggybank-container {
+            position: absolute;
+            top: 10px;
+            right: 50px;
+            text-align: center;
+        }
+
+        .piggybank {
+            width: 50px;
+            height: auto;
+        }
+
+        .savings-input {
+            position: absolute;
+            top: 200px;
+            right: 20px;
+            text-align: center;
+        }
     .create-wishlist-btn {
       display: block;
       width: 200px;
@@ -50,39 +69,61 @@
       color: #333;
       line-height: 1.6;
     }
-  </style>
+
+
+    </style>
 </head>
 <body>
 <div class="dashboard-container">
-  <h1 class="welcome-heading">Welcome to Moneta!</h1>
-  <p th:text="${message}"></p>
-  <a th:href="@{/wishlist/create}" class="btn btn-primary create-wishlist-btn">Create a New Wishlist</a>
+    <h1 class="welcome-heading">Welcome to Moneta!</h1>
+    <p th:text="${message}"></p>
+    <a th:href="@{/wishlist/create}" class="btn btn-primary create-wishlist-btn">Create a New Wishlist</a>
 </div>
 <div class="wishlists-container">
-  <h2 class="wishlists-heading">Your Wishlists</h2>
-  <ul>
-    <li th:each="wishlist : ${wishlists}">
-      <a th:href="@{'/wishlist/' + ${wishlist.id}}">
-        <span th:text="${wishlist.name}"></span>
-      </a>
-      <a th:href="@{'/wishlist/edit/' + ${wishlist.id}}">(Edit)</a>
-    </li>
-  </ul>
+    <h2 class="wishlists-heading">Your Wishlists</h2>
+    <ul>
+        <li th:each="wishlist : ${wishlists}">
+            <a th:href="@{'/wishlist/' + ${wishlist.id}}">
+                <span th:text="${wishlist.name}"></span>
+            </a>
+            <a th:href="@{'/wishlist/edit/' + ${wishlist.id}}">(Edit)</a>
+        </li>
+    </ul>
 </div>
 <div class="total-price">
-  <h3>Total Price of All Items: $<span th:text="${totalPrice}"></span></h3>
+    <h3>Total Price of All Items: $<span th:text="${totalPrice}"></span></h3>
+</div>
+<!-- Piggybank Animation -->
+<div class="piggybank-container">
+    <img th:src="@{cartoon-piggy.png}" alt="Piggybank" width="200" height="200"/>
 </div>
 
-<!--<div>-->
-<!--  <h2>Existing Wishlists:</h2>-->
-<!--  <ul>-->
-<!--    <li th:each="wishlist : ${wishlists}">-->
-<!--      <a th:href="@{'/wishlist/' + ${wishlist.id}}"> &lt;!&ndash; Link to each wishlist &ndash;&gt;-->
-<!--        <span th:text="${wishlist.name}"></span> &lt;!&ndash; Display wishlist name &ndash;&gt;-->
-<!--      </a>-->
-<!--    </li>-->
-<!--  </ul>-->
-<!--</div>-->
+<!-- Input field for savings -->
+<div class="savings-input">
+    <label for="savings">Your Saved Money: </label>
+    <input type="number" id="savings" name="savings" min="0" step="0.01" placeholder="Enter saved amount"
+           onblur="updateSavings(this.value)" th:value="${savedAmount}">
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+        function updateSavings(value) {
+            console.log("Updated savings: $" + value);
+        }
+        $(document).ready(function () {
+            $(".piggybank-container").hover(
+                function () {
+                    $(".piggybank-coin").css("top", "25px");
+                },
+                function () {
+                    $(".piggybank-coin").css("top", "5px");
+                }
+            );
+        });
+
+
+</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>

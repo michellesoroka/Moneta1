@@ -46,22 +46,8 @@ public class WishlistController {
         Double totalItemPrice = wishlistService.calculateTotalItemPrice(newWishlist);
         newWishlist.setTotalItemPrice(totalItemPrice);
         wishlistService.createWishlist(newWishlist);
-        return "redirect:/dashboard"; // Redirect to a dashboard or any other page
+        return "redirect:/dashboard";
     }
-
-//    @PostMapping("/wishlist/save")
-//    public String saveWishlist(@ModelAttribute("newWishlist") Wishlist newWishlist) {
-//        Wishlist newWishlist2 = new Wishlist();
-//        newWishlist2.setName("fromIntelliJ part 2");
-//        Wishlist.Item item1 = new Wishlist.Item();
-//        item1.setItemName("Item 1");
-//        item1.setItemPrice(20.0);
-//        item1.setDescription("Description for Item 2");
-//        item1.setLink("Link for Item 4");
-//        newWishlist2.getItems().add(item1);
-//        wishlistService.createWishlist(newWishlist2);
-//        return "redirect:/dashboard"; // Redirect to a dashboard or any other page
-//    }
 }
 
 //    @PostMapping("/{wishlistId}/addItem")
@@ -69,4 +55,4 @@ public class WishlistController {
 //        wishlistService.addItemToWishlist(wishlistId, item);
 //        return "redirect:/dashboard"; // Redirect to a dashboard or any other page
 //    }
-//}
+//}`
