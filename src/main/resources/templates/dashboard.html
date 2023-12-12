@@ -1,34 +1,44 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:c="">
 <head>
     <meta charset="UTF-8">
     <title>Wishlist Dashboard</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-    body {
-    position: relative;
-      padding: 20px;
-      font-family: 'Monaco', monospace;
-      background-color: #ffc0cb;
-      background-image: radial-gradient(#fff 15%, transparent 16%), radial-gradient(#fff 15%, transparent 16%);
-      background-size: 30px 30px;
-      background-position: 0 0, 15px 15px;
-    }
-    .dashboard-container {
-      max-width: 600px;
-      margin: 0 auto;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    .welcome-heading {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #ff1493;
-      text-transform: uppercase;
-    }
-        .piggybank-container {
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffc0cb;
+            background-image: radial-gradient(#fff 15%, transparent 16%), radial-gradient(#fff 15%, transparent 16%);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+            font-family: 'Monaco', monospace;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .dashboard-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative; /* Add position */
+            left: 100px; /* Adjust the right value to move more to the right */
+        }
+
+        .welcome-heading {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #ff1493;
+            text-transform: uppercase;
+        }
+
+       .piggybank-container {
             position: absolute;
             top: 10px;
             right: 50px;
@@ -52,24 +62,38 @@
       margin: 0 auto;
       text-align: center;
     }
-    .wishlists-container {
-            display: inline-block;
-            padding: 10px;
+   .wishlists-container {
+            padding: 10px; /* Adjust padding as desired */
+            margin-top: 20px;
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
+            width: 90%; /* Adjust the width as needed */
+            max-width: 400px; /* Set a max-width if necessary */
+            margin-left: 400px; /* Adjust the left margin to center it */
+            margin-right: 400px; /* Adjust the right margin to center it */
+            position: relative; /* Add position */
+            right: 100px;
+            color: #ff1493;
         }
-        .wishlists-heading {
-            font-size: 24px;
-            margin-bottom: 10px;
-            color: #333;
+
+        .wishlist-content {
+            padding: 10px; /* Adjust padding around wishlist content */
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            color: #ff1493;
         }
+
     p {
       color: #333;
       line-height: 1.6;
     }
 
+    .total-item-price {
+            position: absolute;
+            top: 250px; /* Adjust top position */
+            right: 20px; /* Adjust right position */
 
     </style>
 </head>
@@ -83,26 +107,37 @@
     <h2 class="wishlists-heading">Your Wishlists</h2>
     <ul>
         <li th:each="wishlist : ${wishlists}">
-            <a th:href="@{'/wishlist/' + ${wishlist.id}}">
+            <a th:href="@{'/wishlist/edit/' + ${wishlist.id}}">
                 <span th:text="${wishlist.name}"></span>
             </a>
             <a th:href="@{'/wishlist/edit/' + ${wishlist.id}}">(Edit)</a>
         </li>
     </ul>
 </div>
-<div class="total-price">
-    <h3>Total Price of All Items: $<span th:text="${totalPrice}"></span></h3>
-</div>
-<!-- Piggybank Animation -->
 <div class="piggybank-container">
     <img th:src="@{cartoon-piggy.png}" alt="Piggybank" width="200" height="200"/>
 </div>
 
-<!-- Input field for savings -->
 <div class="savings-input">
-    <label for="savings">Your Saved Money: </label>
+    <label for="savings">Your Saved Money:</label>
     <input type="number" id="savings" name="savings" min="0" step="0.01" placeholder="Enter saved amount"
            onblur="updateSavings(this.value)" th:value="${savedAmount}">
+</div>
+
+<div class="total-item-price">
+    <label for="totalItemPrice">Total Item Price:</label>
+    <input type="number" id="totalItemPrice" name="totalItemPrice" min="0" step="0.01" placeholder="Enter total item price"
+           onblur="updateTotalItemPrice(this.value)" th:value="${totalItemPrice}">
+</div>
+
+<div>
+    <ul>
+        <c:forEach var="wishlist" items="${wishlists}">
+            <li>
+                <a href="/wishlist/edit/${wishlist.id}">${wishlist.name}</a>
+            </li>
+        </c:forEach>
+    </ul>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -121,8 +156,6 @@
                 }
             );
         });
-
-
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

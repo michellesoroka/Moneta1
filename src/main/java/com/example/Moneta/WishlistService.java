@@ -35,6 +35,14 @@ public class WishlistService {
 
         return total;
     }
+
+    public Wishlist getWishlistById(String id) {
+        return wishlistRepository.findById(id).orElse(null);
+    }
+
+    public void updateWishlist(Wishlist wishlist) {
+        wishlistRepository.save(wishlist);
+    }
 }
 
 

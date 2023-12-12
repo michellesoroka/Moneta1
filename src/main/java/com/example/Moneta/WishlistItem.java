@@ -52,6 +52,7 @@ public class WishlistItem {
         this.itemPrice = itemPrice;
     }
 
+
     public static double getitemPrice(Wishlist.Item item) {
         return itemPrice;
     }

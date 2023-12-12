@@ -39,9 +39,7 @@ public class Wishlist {
         return totalItemPrice;
     }
 
-    //    public List<WishlistItem> getItems() {
-//        return items;
-//    }
+
     public static class Item {
         private String itemName;
 

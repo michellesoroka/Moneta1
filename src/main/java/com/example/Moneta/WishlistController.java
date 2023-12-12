@@ -48,8 +48,24 @@ public class WishlistController {
         wishlistService.createWishlist(newWishlist);
         return "redirect:/dashboard";
     }
-}
 
+    @GetMapping("/wishlist/edit/{id}")
+    public String showEditWishlistForm(@PathVariable("id") String id, Model model) {
+        Wishlist wishlist = wishlistService.getWishlistById(id);
+        System.out.println("we got back to the edit controller");
+        if (wishlist == null) {
+            return "redirect:/dashboard";
+        }
+        model.addAttribute("editWishlist", wishlist);
+        return "editWishlist";
+    }
+
+    @PostMapping("/wishlist/update")
+    public String updateWishlist(@ModelAttribute("editWishlist") Wishlist wishlist) {
+        wishlistService.updateWishlist(wishlist);
+        return "redirect:/dashboard";
+    }
+}
 //    @PostMapping("/{wishlistId}/addItem")
 //    public String addItemToWishlist(@PathVariable String wishlistId, @ModelAttribute("newItem") WishlistItem item) {
 //        wishlistService.addItemToWishlist(wishlistId, item);
