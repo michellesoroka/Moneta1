@@ -48,8 +48,6 @@ public class Wishlist {
         }
 
         private double itemPrice;
-
-        private double totalItemPrice;
         private String description;
         private String link;
         public String getItemName() {
@@ -59,17 +57,8 @@ public class Wishlist {
         public void setItemName(String itemName) {
             this.itemName = itemName;
         }
-
-        public double getTotalItemPrice() {
-            return totalItemPrice;
-        }
-
         public double getItemPrice() {
             return itemPrice;
-        }
-
-        public void setTotalItemPrice(double itemPrice) {
-            this.totalItemPrice = itemPrice;
         }
 
         public String getDescription() {
@@ -101,40 +90,11 @@ public class Wishlist {
         this.name = name;
     }
 
-//    public void addItem(WishlistItem item) {
-//        this.items.add(item);
-//    }
-//
-//    public void removeItem(WishlistItem item) {
-//        this.items.remove(item);
-//    }
-//
-//    public Double getTotalCost() {
-//        return totalCost;
-//    }
-//
-//    public void setTotalCost(Double totalCost) {
-//        this.totalCost = totalCost;
-//    }
-
-//    public Double totalCost;
-//    public Double getTotalPrice() {
-//        return totalPrice;
-//    }
-//
-//    public void setTotalPrice(Double totalPrice) {
-//        this.totalPrice = totalPrice;
-//    }
-
-//    public void updateTotalPrice() {
-//        double sum = 0.0;
-//        for (WishlistItem item : items) {
-//            Double price = item.getItemPrice();
-//            if (price != null) {
-//                sum += price;
-//            }
-//        }
-//        this.totalPrice = sum;
-//    }
+    public double calculateTotalItemPrice() {
+        return items.stream().mapToDouble(Item::getItemPrice).sum();
+    }
+    public void updateTotalItemPrice() {
+        this.totalItemPrice = calculateTotalItemPrice();
+    }
 }
 

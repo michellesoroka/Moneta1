@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 public class WishlistController {
@@ -43,32 +44,30 @@ public class WishlistController {
 
     @PostMapping("/wishlist/save")
     public String saveWishlist(@ModelAttribute("newWishlist") Wishlist newWishlist) {
-        Double totalItemPrice = wishlistService.calculateTotalItemPrice(newWishlist);
-        newWishlist.setTotalItemPrice(totalItemPrice);
+//        Double totalItemPrice = wishlistService.calculateTotalItemPrice(newWishlist);
+//        newWishlist.setTotalItemPrice(totalItemPrice);
         wishlistService.createWishlist(newWishlist);
         return "redirect:/dashboard";
     }
 
+
     @GetMapping("/wishlist/edit/{id}")
     public String showEditWishlistForm(@PathVariable("id") String id, Model model) {
-        Wishlist wishlist = wishlistService.getWishlistById(id);
-        System.out.println("we got back to the edit controller");
-        if (wishlist == null) {
+        Optional<Wishlist> wishlistOpt = Optional.ofNullable(wishlistService.getWishlistById(id));
+
+        if (!wishlistOpt.isPresent()) {
             return "redirect:/dashboard";
         }
+
+        Wishlist wishlist = wishlistOpt.get();
+        wishlist.setTotalItemPrice(wishlist.calculateTotalItemPrice());
         model.addAttribute("editWishlist", wishlist);
         return "editWishlist";
     }
 
     @PostMapping("/wishlist/update")
     public String updateWishlist(@ModelAttribute("editWishlist") Wishlist wishlist) {
-        wishlistService.updateWishlist(wishlist);
+        wishlistService.saveOrUpdateWishlist(wishlist);
         return "redirect:/dashboard";
     }
 }
-//    @PostMapping("/{wishlistId}/addItem")
-//    public String addItemToWishlist(@PathVariable String wishlistId, @ModelAttribute("newItem") WishlistItem item) {
-//        wishlistService.addItemToWishlist(wishlistId, item);
-//        return "redirect:/dashboard"; // Redirect to a dashboard or any other page
-//    }
-//}`

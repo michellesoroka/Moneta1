@@ -24,17 +24,17 @@ public class WishlistService {
         wishlistRepository.save(newWishlist);
     }
 
-    public Double calculateTotalItemPrice(Wishlist wishlist) {
-        List<Wishlist.Item> items = wishlist.getItems();
-        if (items == null || items.isEmpty()) {
-            return 0.0;
-        }
-
-        // Calculate total item price
-        double total = items.stream().mapToDouble(Wishlist.Item::getitemPrice).sum();
-
-        return total;
-    }
+//    public Double calculateTotalItemPrice(Wishlist wishlist) {
+//        List<Wishlist.Item> items = wishlist.getItems();
+//        if (items == null || items.isEmpty()) {
+//            return 0.0;
+//        }
+//
+//        // Calculate total item price
+//        double total = items.stream().mapToDouble(Wishlist.Item::getitemPrice).sum();
+//
+//        return total;
+//    }
 
     public Wishlist getWishlistById(String id) {
         return wishlistRepository.findById(id).orElse(null);
@@ -42,6 +42,11 @@ public class WishlistService {
 
     public void updateWishlist(Wishlist wishlist) {
         wishlistRepository.save(wishlist);
+    }
+
+    public Wishlist saveOrUpdateWishlist(Wishlist wishlist) {
+        wishlist.updateTotalItemPrice();
+        return wishlistRepository.save(wishlist);
     }
 }
 

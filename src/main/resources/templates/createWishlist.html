@@ -64,6 +64,28 @@
         cell4.innerHTML = '<input type="text" th:field="*{items[__${#lists.size(newWishlist.items)}__].link}" required>';
     }
 </script>
+<script>
+    // Function to calculate the initial count of items
+    function initializeItemCount() {
+        var table = document.getElementById('wishlistItems').getElementsByTagName('tbody')[0];
+        return table.rows.length;
+    }
+
+    var itemCount = initializeItemCount();
+
+    function addRow() {
+        var table = document.getElementById('wishlistItems').getElementsByTagName('tbody')[0];
+        var newRow = table.insertRow();
+
+        newRow.innerHTML =
+            '<td><input type="text" name="items[' + itemCount + '].itemName" required></td>' +
+            '<td><input type="number" name="items[' + itemCount + '].itemPrice" required></td>' +
+            '<td><input type="text" name="items[' + itemCount + '].description" required></td>' +
+            '<td><input type="text" name="items[' + itemCount + '].link" required></td>';
+
+        itemCount++;
+    }
+</script>
 </body>
 </html>
 

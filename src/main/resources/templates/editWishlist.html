@@ -37,6 +37,12 @@
     </div>
   </div>
 
+  <!-- Display totalItemPrice -->
+  <div>
+    <label for="totalItemPrice">Total Item Price:</label>
+    <span th:text="${editWishlist.totalItemPrice}"></span>
+  </div>
+
   <!-- Submit button -->
   <div>
     <input type="submit" value="Update Wishlist"/>
@@ -47,6 +53,7 @@
 <a th:href="@{/dashboard}">Back to Dashboard</a>
 </body>
 </html>
+
 
 
 
