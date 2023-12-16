@@ -7,6 +7,50 @@
 <body>
 <h2>Edit Wishlist: <span th:text="${editWishlist.name}"></span></h2>
 
+<style>
+ .btn {
+        display: inline-block;
+        padding: 6px 12px;
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        color: #333;
+        background-color: #fff;
+        border-color: #ccc;
+    }
+
+    .btn:hover {
+        color: #333;
+        background-color: #ebebeb;
+        border-color: #adadad;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+</style>
+
 <form th:action="@{/wishlist/update}" th:object="${editWishlist}" method="post">
   <!-- Hidden field for wishlist ID -->
   <input type="hidden" th:field="*{id}"/>
@@ -18,41 +62,84 @@
   </div>
 
   <!-- Wishlist items -->
-  <div>
-    <h3>Items:</h3>
-    <div th:each="item, iterStat : *{items}">
-      <label th:for="${'itemName' + iterStat.index}">Item Name:</label>
-      <input type="text" th:field="*{items[__${iterStat.index}__].itemName}" th:id="${'itemName' + iterStat.index}"/>
+  <table>
+    <thead>
+    <tr>
+      <th>Item Name</th>
+      <th>Price</th>
+      <th>Description</th>
+      <th>Link</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item, iterStat : *{items}" th:with="index=${iterStat.index}">
+      <td><input type="text" th:field="*{items[__${iterStat.index}__].itemName}"/></td>
+      <td><input type="number" th:field="*{items[__${iterStat.index}__].itemPrice}"/></td>
+      <td><input type="text" th:field="*{items[__${iterStat.index}__].description}"/></td>
+      <td><input type="text" th:field="*{items[__${iterStat.index}__].link}"/></td>
+      <td>
+        <button type="button" th:onclick="'markForDeletion(this, ' + ${index} + ');'">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
 
-      <label th:for="${'itemPrice' + iterStat.index}">Price:</label>
-      <input type="number" th:field="*{items[__${iterStat.index}__].itemPrice}" th:id="${'itemPrice' + iterStat.index}"/>
-
-      <label th:for="${'description' + iterStat.index}">Description:</label>
-      <input type="text" th:field="*{items[__${iterStat.index}__].description}" th:id="${'description' + iterStat.index}"/>
-
-      <label th:for="${'link' + iterStat.index}">Link:</label>
-      <input type="text" th:field="*{items[__${iterStat.index}__].link}" th:id="${'link' + iterStat.index}"/>
-
-      <!-- Additional item fields as needed -->
-    </div>
-  </div>
-
-  <!-- Display totalItemPrice -->
   <div>
     <label for="totalItemPrice">Total Item Price:</label>
-    <span th:text="${editWishlist.totalItemPrice}"></span>
+    <span th:text="${editWishlist.totalItemPrice != null ? editWishlist.totalItemPrice : 0}"></span>
   </div>
 
   <!-- Submit button -->
   <div>
-    <input type="submit" value="Update Wishlist"/>
+    <input type="submit" class="btn" value="Update Wishlist"/>
   </div>
+  <a th:href="@{/wishlist/addItem/{id}(id=${editWishlist.id})}" class="btn">Add New Item</a>
+
+
 </form>
 
-<!-- Link to go back to the dashboard -->
+<script>
+       function markForDeletion(button, index) {
+        // Find the table row (tr) to hide
+        var row = button.parentNode.parentNode;
+        row.style.display = 'none';
+
+        // Create and append a hidden input to mark the item for deletion
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'items[' + index + '].deleted';
+        input.value = 'true';
+        row.appendChild(input);
+    }
+
+  function updateTotalPrice() {
+        var total = 0;
+        document.querySelectorAll("table tbody tr").forEach(function(row) {
+            if (row.style.display !== 'none') { // Only count visible rows
+                var priceInput = row.querySelector('input[name*="itemPrice"]');
+                if (priceInput) {
+                    var price = parseFloat(priceInput.value);
+                    if (!isNaN(price)) {
+                        total += price;
+                    }
+                }
+            }
+        });
+        document.getElementById('totalPriceDisplay').textContent = total.toFixed(2);
+    }
+
+     function addItem() {
+        var url = document.querySelector('.btn[data-url]').getAttribute('data-url');
+        window.location.href = url;
+    }
+
+</script>
+
 <a th:href="@{/dashboard}">Back to Dashboard</a>
 </body>
 </html>
+
 
 
 

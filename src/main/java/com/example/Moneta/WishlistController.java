@@ -39,6 +39,7 @@ public class WishlistController {
         Wishlist newWishlist = new Wishlist();
         newWishlist.setItems(new ArrayList<>());
         model.addAttribute("newWishlist", newWishlist);
+        System.out.println("Reached create wishlist endpoint! Pls continue to work!");
         return "createWishlist";
     }
 
@@ -67,7 +68,19 @@ public class WishlistController {
 
     @PostMapping("/wishlist/update")
     public String updateWishlist(@ModelAttribute("editWishlist") Wishlist wishlist) {
-        wishlistService.saveOrUpdateWishlist(wishlist);
+        wishlistService.updateWishlist(wishlist);
         return "redirect:/dashboard";
+    }
+
+    @GetMapping("/wishlist/addItem/{id}")
+    public String addItemToWishlist(@PathVariable("id") String id, Model model) {
+        Wishlist wishlist = wishlistService.getWishlistById(id);
+        if (wishlist == null) {
+            return "redirect:/dashboard";
+        }
+
+        wishlist.getItems().add(new Wishlist.Item()); // Add a new blank item
+        model.addAttribute("editWishlist", wishlist);
+        return "editWishlist"; // Return to the edit page
     }
 }

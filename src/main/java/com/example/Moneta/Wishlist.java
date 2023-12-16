@@ -50,6 +50,17 @@ public class Wishlist {
         private double itemPrice;
         private String description;
         private String link;
+
+        private boolean deleted = false;
+
+        public boolean isDeleted() {
+            return deleted;
+        }
+
+        // Setter for the 'deleted' field
+        public void setDeleted(boolean deleted) {
+            this.deleted = deleted;
+        }
         public String getItemName() {
             return itemName;
         }
