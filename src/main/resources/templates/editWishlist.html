@@ -8,6 +8,40 @@
 <h2>Edit Wishlist: <span th:text="${editWishlist.name}"></span></h2>
 
 <style>
+  body {
+        position: relative; /* Make body a relative container for absolute positioning */
+        align-items: center;
+        background-color: #ccffcc;
+        background-image: radial-gradient(#fff 15%, transparent 16%), radial-gradient(#fff 15%, transparent 16%);
+        background-size: 30px 30px;
+        font-family: 'Monaco', monospace;
+        color: #333;
+        padding-top: 60px; /* Add padding to prevent overlapping with the button */
+    }
+
+    table {
+        width: 50%;
+        border-collapse: collapse;
+        background-color: white; /* White background for the table */
+        border: 1px solid #ddd; /* Light grey border for the table */
+        margin-top: 20px;
+    }
+
+    th, td {
+        border: 1px solid #ddd; /* Light grey border for cells */
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2; /* Light grey background for header */
+    }
+
+     .back-to-dashboard {
+        position: absolute;
+        top: 10px;
+        right: 10px; /* Position at the upper right corner */
+    }
  .btn {
         display: inline-block;
         padding: 6px 12px;
@@ -69,7 +103,7 @@
       <th>Price</th>
       <th>Description</th>
       <th>Link</th>
-      <th>Action</th>
+      <th>Delete</th>
     </tr>
     </thead>
     <tbody>
@@ -90,11 +124,14 @@
     <span th:text="${editWishlist.totalItemPrice != null ? editWishlist.totalItemPrice : 0}"></span>
   </div>
 
+  <div>
+    <a th:href="@{/wishlist/addItem/{id}(id=${editWishlist.id})}" class="btn">Add New Item</a>
+  </div>
+
   <!-- Submit button -->
   <div>
     <input type="submit" class="btn" value="Update Wishlist"/>
   </div>
-  <a th:href="@{/wishlist/addItem/{id}(id=${editWishlist.id})}" class="btn">Add New Item</a>
 
 
 </form>
@@ -136,7 +173,8 @@
 
 </script>
 
-<a th:href="@{/dashboard}">Back to Dashboard</a>
+<a href="/dashboard" class="btn back-to-dashboard">Back to Dashboard</a>
+
 </body>
 </html>
 
