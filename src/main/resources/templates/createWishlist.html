@@ -4,20 +4,80 @@
     <meta charset="UTF-8">
     <title>Create Wishlist</title>
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: left;
-        }
-
-         .crossed-out {
-        text-decoration: line-through; /* Crosses out text */
-        opacity: 0.6; /* Optionally, make crossed-out rows more transparent */
+        body {
+        position: relative; /* Make body a relative container for absolute positioning */
+        align-items: center;
+        background-color: #fdfd96; /* Pastel yellow background */
+        background-image: radial-gradient(#fff 15%, transparent 16%), radial-gradient(#fff 15%, transparent 16%);
+        background-size: 25px 25px;
+        font-family: 'Monaco', monospace;
+        color: #333;
+        padding-top: 60px; /* Add padding to prevent overlapping with the button */
     }
+      table {
+        width: 50%;
+        border-collapse: collapse;
+        background-color: white; /* White background for the table */
+        border: 1px solid #ddd; /* Light grey border for the table */
+        margin-top: 20px;
+    }
+
+    th, td {
+        border: 1px solid #ddd; /* Light grey border for cells */
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2; /* Light grey background for header */
+    }
+
+     .back-to-dashboard {
+        position: absolute;
+        top: 10px;
+        right: 10px; /* Position at the upper right corner */
+    }
+ .btn {
+        display: inline-block;
+        padding: 6px 12px;
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        color: #333;
+        background-color: #fff;
+        border-color: #ccc;
+    }
+
+    .btn:hover {
+        color: #333;
+        background-color: #ebebeb;
+        border-color: #adadad;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
     </style>
 </head>
 <body>
@@ -35,6 +95,7 @@
             <th>Item Price</th>
             <th>Description</th>
             <th>Link</th>
+            <th>Delete?</th>
 
         </tr>
         </thead>
@@ -44,7 +105,9 @@
             <td><input type="text" th:field="*{items[__${index}__].itemPrice}" required></td>
             <td><input type="text" th:field="*{items[__${index}__].description}" required></td>
             <td><input type="text" th:field="*{items[__${index}__].link}" required></td>
+            <td><button type="button" th:onclick="'markForDeletion(this, ' + ${index} + ');'">Delete</button></td>
         </tr>
+
         </tbody>
     </table>
 
@@ -91,6 +154,19 @@
             '<td><input type="text" name="items[' + itemCount + '].link" required></td>';
 
         itemCount++;
+    }
+
+      function markForDeletion(button, index) {
+        // Find the table row (tr) to hide
+        var row = button.parentNode.parentNode;
+        row.style.display = 'none';
+
+        // Create and append a hidden input to mark the item for deletion
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'items[' + index + '].deleted';
+        input.value = 'true';
+        row.appendChild(input);
     }
 </script>
 </body>
