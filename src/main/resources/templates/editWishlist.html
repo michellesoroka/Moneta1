@@ -82,6 +82,10 @@
     th {
       background-color: #f2f2f2;
     }
+  .crossed-out, .crossed-out input {
+        text-decoration: line-through;
+        color: #999; /* Optional: Change color to indicate the item is crossed out */
+    }
 
 </style>
 
@@ -104,6 +108,7 @@
       <th>Description</th>
       <th>Link</th>
       <th>Delete</th>
+      <th>Purchased?</th>
     </tr>
     </thead>
     <tbody>
@@ -115,6 +120,7 @@
       <td>
         <button type="button" th:onclick="'markForDeletion(this, ' + ${index} + ');'">Delete</button>
       </td>
+      <td><button type="button" onclick="crossOutRow(this)">Cross Out</button></td>
     </tr>
     </tbody>
   </table>
@@ -169,6 +175,13 @@
      function addItem() {
         var url = document.querySelector('.btn[data-url]').getAttribute('data-url');
         window.location.href = url;
+    }
+
+     function crossOutRow(button) {
+        var row = button.parentNode.parentNode;
+        Array.from(row.cells).forEach(cell => {
+            cell.classList.toggle('crossed-out');
+        });
     }
 
 </script>

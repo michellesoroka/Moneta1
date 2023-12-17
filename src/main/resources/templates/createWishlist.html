@@ -13,6 +13,11 @@
             padding: 8px;
             text-align: left;
         }
+
+         .crossed-out {
+        text-decoration: line-through; /* Crosses out text */
+        opacity: 0.6; /* Optionally, make crossed-out rows more transparent */
+    }
     </style>
 </head>
 <body>
@@ -30,6 +35,7 @@
             <th>Item Price</th>
             <th>Description</th>
             <th>Link</th>
+
         </tr>
         </thead>
         <tbody>
@@ -44,6 +50,7 @@
 
     <!-- Button to add new row for wishlist item -->
     <button type="button" onclick="addRow()">Add Item</button><br><br>
+
 
     <input type="submit" value="Create Wishlist">
 </form>
