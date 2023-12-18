@@ -38,6 +38,10 @@
             text-transform: uppercase;
         }
 
+.money-counter-title {
+    color: #ff1493; /* Bright pink color */
+    margin-bottom: 10px;
+}
        .piggybank-container {
             position: absolute;
             top: 10px;
@@ -46,16 +50,34 @@
         }
 
         .piggybank {
-            width: 50px;
-            height: auto;
-        }
+    width: 200px; /* Increase width as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+       .money-counter-container {
+    border: 1px solid #fff; /* Thin white border */
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow */
+    position: absolute; /* Change to absolute positioning */
+    top: 20px; /* Adjust top positioning */
+    right: 20px; /* Adjust right positioning */
+}
 
-        .savings-input {
-            position: absolute;
-            top: 200px;
-            right: 20px;
-            text-align: center;
-        }
+.savings-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.savings-input input {
+    max-width: 150px; /* Adjust this value as needed */
+    padding: 8px;
+    margin-right: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
     .create-wishlist-btn {
       display: block;
       width: 200px;
@@ -90,19 +112,58 @@
       line-height: 1.6;
     }
 
-    .total-item-price {
-            position: absolute;
-            top: 250px; /* Adjust top position */
-            right: 20px; /* Adjust right position */
+    .positive-difference {
+    color: green;
+}
+
+.negative-difference {
+    color: red;
+}
 
     </style>
 </head>
 <body>
 <div class="dashboard-container">
-    <h1 class="welcome-heading">Welcome to Moneta!</h1>
+    <h1 class="welcome-heading">Welcome to Moneta, <span th:text="${username}"></span>!</h1>
     <p th:text="${message}"></p>
     <a th:href="@{/wishlist/create}" class="btn btn-primary create-wishlist-btn">Create a New Wishlist</a>
 </div>
+
+<div class="money-counter-container">
+    <h2 class="money-counter-title">Money Counter</h2>
+    <img th:src="@{cartoon-piggy.png}" alt="Piggybank" class="piggybank" />
+
+
+    <div class="savings-display">
+        <span>Savings Amount: </span><span id="display-savings">0</span>
+        <button onclick="toggleInputField()">Update</button>
+    </div>
+
+    <form action="/save-saved-amount" method="post" id="savings-form" onsubmit="saveToLocalStorage()">
+        <input type="number" id="savedAmount" name="savedAmount" placeholder="Enter saved amount" style="display:none;">
+        <button type="submit" id="save-button" style="display:none;">Save</button>
+    </form>
+
+
+<!--    <div class="savings-input" style="display:none;">-->
+<!--        <label for="savings">Savings Amount:</label>-->
+<!--        <input type="number" id="savings" name="savings" min="0" step="0.01" placeholder="Enter saved amount" />-->
+<!--        <button onclick="saveAndHideUpdateField()">Save</button>-->
+<!--    </div>-->
+
+<!--    <form action="/save-saved-amount" method="post" id="savings-form">-->
+<!--        <input type="number" id="savedAmount" name="savedAmount" placeholder="Enter saved amount" style="display:none;">-->
+<!--        <button type="button" id="update-button" onclick="toggleUpdateField()">Update</button>-->
+<!--    </form>-->
+
+    <div class="total-item-price-display">
+        <span>Total Item Price: <span th:text="${totalItemPrice}"></span></span>
+    </div>
+    <div th:class="${difference >= 0 ? 'positive-difference' : 'negative-difference'}">
+        Difference: <span th:text="${difference}"></span>
+    </div>
+</div>
+
 <div class="wishlists-container">
     <h2 class="wishlists-heading">Your Wishlists</h2>
     <ul>
@@ -113,32 +174,7 @@
             <a th:href="@{'/wishlist/edit/' + ${wishlist.id}}">(Edit)</a>
         </li>
     </ul>
-</div>
-<div class="piggybank-container">
-    <img th:src="@{cartoon-piggy.png}" alt="Piggybank" width="200" height="200"/>
-</div>
-
-<div class="savings-input">
-    <label for="savings">Your Saved Money:</label>
-    <input type="number" id="savings" name="savings" min="0" step="0.01" placeholder="Enter saved amount"
-           onblur="updateSavings(this.value)" th:value="${savedAmount}">
-</div>
-
-<div class="total-item-price">
-    <label for="totalItemPrice">Total Item Price:</label>
-    <input type="number" id="totalItemPrice" name="totalItemPrice" min="0" step="0.01" placeholder="Enter total item price"
-           onblur="updateTotalItemPrice(this.value)" th:value="${totalItemPrice}">
-</div>
-
-<div>
-    <ul>
-        <c:forEach var="wishlist" items="${wishlists}">
-            <li>
-                <a href="/wishlist/edit/${wishlist.id}">${wishlist.name}</a>
-            </li>
-        </c:forEach>
-    </ul>
-</div>
+</div>s
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -156,6 +192,60 @@
                 }
             );
         });
+</script>
+<script>
+    // Function to save savings to local storage and display it
+    function saveAndShowSavings(value) {
+        localStorage.setItem('savedAmount', value);
+        document.getElementById('display-savings').textContent = value;
+    }
+
+<!--    // Function to load savings from local storage-->
+<!--    function loadSavingsFromLocal() {-->
+<!--        var savedAmount = localStorage.getItem('savedAmount');-->
+<!--        if (savedAmount) {-->
+<!--            document.getElementById('savings').value = savedAmount;-->
+<!--            document.getElementById('display-savings').textContent = savedAmount;-->
+<!--        }-->
+<!--    }-->
+</script>
+<script>
+    function showUpdateField() {
+        document.getElementById('savedAmount').style.display = 'inline';
+        document.getElementById('save-button').style.display = 'inline';
+        document.getElementById('update-button').style.display = 'none';
+    }
+
+    function hideUpdateField() {
+        document.getElementById('savedAmount').style.display = 'none';
+        document.getElementById('save-button').style.display = 'none';
+        document.getElementById('update-button').style.display = 'inline';
+    }
+
+    function toggleInputField() {
+        var savedAmountInput = document.getElementById('savedAmount');
+        var saveButton = document.getElementById('save-button');
+        savedAmountInput.style.display = savedAmountInput.style.display === 'none' ? 'inline' : 'none';
+        saveButton.style.display = saveButton.style.display === 'none' ? 'inline' : 'none';
+    }
+
+        function saveToLocalStorage() {
+        var savedAmountValue = document.getElementById('savedAmount').value;
+        localStorage.setItem('savedAmount', savedAmountValue);
+    }
+
+        function loadSavingsFromLocal() {
+        var savedAmount = localStorage.getItem('savedAmount');
+        if (savedAmount) {
+            document.getElementById('display-savings').textContent = savedAmount;
+        }
+    }
+
+        window.onload = function() {
+            loadSavingsFromLocal();
+            hideUpdateField();
+        };
+
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

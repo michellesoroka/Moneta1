@@ -1,5 +1,6 @@
 package com.example.Moneta;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -45,5 +46,18 @@ public class WishlistService {
         wishlist.updateTotalItemPrice();
 
         wishlistRepository.save(wishlist);
+    }
+
+    public double getSavedAmountFromUser(HttpServletRequest request) {
+        Object savedAmountObj = request.getSession().getAttribute("savedAmount");
+        if (savedAmountObj != null) {
+            try {
+                return Double.parseDouble(savedAmountObj.toString());
+            } catch (NumberFormatException e) {
+                // Handle the parsing error
+                return 0.0;
+            }
+        }
+        return 0.0; // Default value if no amount is saved
     }
 }

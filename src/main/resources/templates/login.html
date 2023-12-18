@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Login</title>
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            text-align: center;
+            padding-top: 50px;
+        }
+
+        .login-container {
+            display: inline-block;
+            background-color: #ffc0cb; /* Pink background */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            margin: auto;
+        }
+
+        .login-field {
+            margin: 10px 0;
+        }
+
+        .login-field input {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        .login-title {
+            color: #333;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="login-container">
+  <h2 class="login-title">Welcome to Moneta</h2>
+  <form action="/login" method="post">
+    <div class="login-field">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required>
+    </div>
+    <div class="login-field">
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+    </div>
+    <div class="login-field">
+      <button type="submit">Login</button>
+    </div>
+  </form>
+</div>
+</body>
+</html>
