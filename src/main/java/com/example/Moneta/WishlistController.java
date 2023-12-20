@@ -2,6 +2,8 @@ package com.example.Moneta;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,7 @@ public class WishlistController {
         this.wishlistService = wishlistService;
         this.wishlistRepository = wishlistRepository;
     }
+
     @GetMapping("/dashboard")
     public String showDashboard(Model model, HttpServletRequest request) {
         String username = (String) request.getSession().getAttribute("username");
@@ -67,6 +70,7 @@ public class WishlistController {
                 .mapToDouble(Wishlist::getTotalItemPrice)
                 .sum();
     }
+
     @GetMapping("/login")
     public String showLoginPage() {
         return "login";  // Return the login page view
@@ -95,12 +99,9 @@ public class WishlistController {
 
     @PostMapping("/wishlist/save")
     public String saveWishlist(@ModelAttribute("newWishlist") Wishlist newWishlist) {
-//        Double totalItemPrice = wishlistService.calculateTotalItemPrice(newWishlist);
-//        newWishlist.setTotalItemPrice(totalItemPrice);
         wishlistService.createWishlist(newWishlist);
         return "redirect:/dashboard";
     }
-
 
     @GetMapping("/wishlist/edit/{id}")
     public String showEditWishlistForm(@PathVariable("id") String id, Model model) {
@@ -112,7 +113,12 @@ public class WishlistController {
 
         Wishlist wishlist = wishlistOpt.get();
         wishlist.setTotalItemPrice(wishlist.calculateTotalItemPrice());
-        model.addAttribute("editWishlist", wishlist);
+
+        // Ensure that editWishlist is not null in the model
+        if (!model.containsAttribute("editWishlist")) {
+            model.addAttribute("editWishlist", wishlist);
+        }
+
         return "editWishlist";
     }
 
@@ -130,7 +136,23 @@ public class WishlistController {
         }
 
         wishlist.getItems().add(new Wishlist.Item()); // Add a new blank item
-        model.addAttribute("editWishlist", wishlist);
-        return "editWishlist"; // Return to the edit page
+
+        // Ensure that editWishlist is not null in the model
+        if (!model.containsAttribute("editWishlist")) {
+            model.addAttribute("editWishlist", wishlist);
+        }
+
+        return "editWishlist";
+    }
+
+    @DeleteMapping("/wishlist/delete/{id}")
+    public ResponseEntity<String> deleteWishlist(@PathVariable String id) {
+        try {
+            // Find the wishlist by ID and delete it (including all items)
+            wishlistRepository.deleteById(id);
+            return ResponseEntity.ok("Wishlist deleted successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete wishlist.");
+        }
     }
 }
