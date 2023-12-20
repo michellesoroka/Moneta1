@@ -353,21 +353,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
-        function updateSavings(value) {
-            console.log("Updated savings: $" + value);
-        }
-        $(document).ready(function () {
-            $(".piggybank-container").hover(
-                function () {
-                    $(".piggybank-coin").css("top", "25px");
-                },
-                function () {
-                    $(".piggybank-coin").css("top", "5px");
-                }
-            );
-        });
-</script>
-<script>
     // Function to save savings to local storage and display it
     function saveAndShowSavings(value) {
         localStorage.setItem('savedAmount', value);
@@ -383,7 +368,7 @@
     }
 
     // When the page loads
-    window.onload = function() {
+    window.onload = function () {
         loadSavingsFromLocal();
     };
 </script>
@@ -413,13 +398,29 @@
         localStorage.setItem('savedAmount', savedAmountValue);
     }
 
-    window.onload = function() {
+    window.onload = function () {
         loadSavingsFromLocal();
         hideUpdateField();
     };
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const tableBody = document.querySelector('#discountCodesTable tbody');
+   document.addEventListener('DOMContentLoaded', function () {
+    const tableBody = document.querySelector('#discountCodesTable tbody');
+    const addPromoCodeButton = document.querySelector('#addPromoCodeButton');
+
+
+// Add a click event listener to the button
+addPromoCodeButton.addEventListener('click', function () {
+    // Prompt the user to enter store name and promo code
+    const storeName = prompt("Enter store name:");
+    const promoCode = prompt("Enter promo code:");
+
+    if (storeName && promoCode) {
+        // Call the function to add a new row
+        addDiscountCodeRow(storeName, promoCode);
+    } else {
+        alert("Invalid input. Please enter valid values.");
+    }
+});
 
         // Function to add a new row to the table
         function addDiscountCodeRow(storeName, promoCode) {
@@ -454,41 +455,63 @@
         // Example: Add initial discount codes to the table
         addDiscountCodeRow('Store 1', 'CODE123');
         addDiscountCodeRow('Store 2', 'DISCOUNT456');
+    });
+</script>
 
-        addPromoCodeButton.addEventListener('click', function () {
-            addDiscountCodeRow('', ''); // Add an empty row
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const returnsTableBody = document.querySelector('#returnsTable tbody');
+        const addReturnButton = document.querySelector('#addReturnButton');
+
+        addReturnButton.addEventListener('click', function () {
+            // Prompt the user to enter item name, purchase date, and return period
+            const itemName = prompt("Enter the item name:");
+            const datePurchased = prompt("Enter the purchase date (MM-DD-YYYY):");
+            const returnPeriod = parseInt(prompt("Enter the return period in days:"));
+
+            if (itemName && datePurchased && !isNaN(returnPeriod)) {
+                // Add a new row to the returns table
+                addReturnRow(itemName, datePurchased, returnPeriod);
+            } else {
+                alert("Invalid input. Please enter valid values.");
+            }
         });
 
+        // Function to add a new row to the returns table
+        function addReturnRow(itemName, datePurchased, returnPeriod) {
+            const newRow = document.createElement('tr');
+            const currentDate = new Date();
+            const returnDate = new Date(datePurchased);
+            returnDate.setDate(returnDate.getDate() + returnPeriod);
+            const daysLeft = Math.max(0, Math.ceil((returnDate - currentDate) / (1000 * 60 * 60 * 24)));
 
-    document.addEventListener('DOMContentLoaded', function () {
-    const returnsTableBody = document.querySelector('#returnsTable tbody');
-    const addReturnButton = document.querySelector('#addReturnButton');
+            newRow.innerHTML = `
+                <td>${itemName}</td>
+                <td>${datePurchased}</td>
+                <td>${returnPeriod}</td>
+                <td>${daysLeft} days left</td>
+                <td><button class="mark-as-returned">Mark as Returned</button></td>
+            `;
+            returnsTableBody.appendChild(newRow);
 
-    addReturnButton.addEventListener('click', function () {
-        // Add a new row to the returns table
-        addReturnRow("Item Name", "2023-01-01", 30); // Example values
+            // Add event listener to the "Mark as Returned" button
+            const markAsReturnedButton = newRow.querySelector('.mark-as-returned');
+            markAsReturnedButton.addEventListener('click', function () {
+                markItemAsReturned(newRow);
+            });
+        }
+
+        // Function to mark an item as returned
+        function markItemAsReturned(row) {
+            row.classList.add('returned'); // Add a CSS class for styling
+            const markAsReturnedButton = row.querySelector('.mark-as-returned');
+            markAsReturnedButton.textContent = 'Returned';
+            markAsReturnedButton.disabled = true;
+        }
     });
-
-    // Function to add a new row to the returns table
-    function addReturnRow(itemName, datePurchased, returnPeriod) {
-        const newRow = document.createElement('tr');
-        const currentDate = new Date();
-        const returnDate = new Date(datePurchased);
-        returnDate.setDate(returnDate.getDate() + returnPeriod);
-        const daysLeft = Math.max(0, Math.ceil((returnDate - currentDate) / (1000 * 60 * 60 * 24)));
-
-        newRow.innerHTML = `
-            <td>${itemName}</td>
-            <td>${datePurchased}</td>
-            <td>${returnPeriod}</td>
-            <td style="color: #ff0000;">${returnDate.toDateString()}</td>
-        `;
-        returnsTableBody.appendChild(newRow);
-    }
-    });
-    });
-
 </script>
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
