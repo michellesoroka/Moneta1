@@ -21,6 +21,7 @@ public class Wishlist {
     private String name;
     private List<Item> items = new ArrayList<>();
 
+
     public List<Item> getItems() {
         return items;
     }
@@ -51,6 +52,15 @@ public class Wishlist {
         private String description;
         private String link;
 
+        public double getRating() {
+            return rating;
+        }
+
+        public void setRating(double rating) {
+            this.rating = rating;
+        }
+
+        private double rating;
         private boolean deleted = false;
 
         public boolean isDeleted() {
@@ -107,5 +117,7 @@ public class Wishlist {
     public void updateTotalItemPrice() {
         this.totalItemPrice = calculateTotalItemPrice();
     }
+
+
 }
 

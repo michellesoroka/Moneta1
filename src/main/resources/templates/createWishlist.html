@@ -37,24 +37,25 @@
         top: 10px;
         right: 10px; /* Position at the upper right corner */
     }
- .btn {
-        display: inline-block;
-        padding: 6px 12px;
-        margin-bottom: 0;
-        font-size: 14px;
-        font-weight: 400;
-        line-height: 1.42857143;
-        text-align: center;
-        white-space: nowrap;
-        vertical-align: middle;
-        cursor: pointer;
-        background-image: none;
-        border: 1px solid transparent;
-        border-radius: 4px;
-        color: #333;
-        background-color: #fff;
-        border-color: #ccc;
-    }
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px; /* Match the font size to 14px */
+    font-family: 'Monaco', monospace; /* Match the font family */
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
 
     .btn:hover {
         color: #333;
@@ -105,21 +106,24 @@
             <td><input type="text" th:field="*{items[__${index}__].itemPrice}" required></td>
             <td><input type="text" th:field="*{items[__${index}__].description}" required></td>
             <td><input type="text" th:field="*{items[__${index}__].link}" required></td>
-            <td><button type="button" th:onclick="'markForDeletion(this, ' + ${index} + ');'">Delete</button></td>
+            <td><button type="button" class="btn" th:onclick="'markForDeletion(this, ' + ${index} + ');'">Delete</button></td>
         </tr>
 
         </tbody>
     </table>
 
     <!-- Button to add new row for wishlist item -->
-    <button type="button" onclick="addRow()">Add Item</button><br><br>
-
-
-    <input type="submit" value="Create Wishlist">
+    <button type="button" class="btn" onclick="addRow()">Add Item</button><br><br>
+    <input type="submit" class="btn" value="Create Wishlist">
 </form>
 
 <script>
-    function addRow() {
+
+        function initializeItemCount() {
+        var table = document.getElementById('wishlistItems').getElementsByTagName('tbody')[0];
+        return table.rows.length;
+    }
+     function addRow() {
         var table = document.getElementById('wishlistItems').getElementsByTagName('tbody')[0];
         var newRow = table.insertRow(table.rows.length);
 
@@ -127,34 +131,29 @@
         var cell2 = newRow.insertCell(1);
         var cell3 = newRow.insertCell(2);
         var cell4 = newRow.insertCell(3);
+        var cell5 = newRow.insertCell(4); // Add a new cell for the "Delete" button
 
         cell1.innerHTML = '<input type="text" th:field="*{items[__${#lists.size(newWishlist.items)}__].itemName}" required>';
         cell2.innerHTML = '<input type="text" th:field="*{items[__${#lists.size(newWishlist.items)}__].itemPrice}" required>';
         cell3.innerHTML = '<input type="text" th:field="*{items[__${#lists.size(newWishlist.items)}__].description}" required>';
         cell4.innerHTML = '<input type="text" th:field="*{items[__${#lists.size(newWishlist.items)}__].link}" required>';
+
+        // Create a "Delete" button element
+        var deleteButton = document.createElement('button');
+        deleteButton.type = 'button';
+        deleteButton.innerHTML = 'Delete';
+        deleteButton.className = 'btn';
+        deleteButton.onclick = function() {
+            markForDeletion(this, table.rows.length - 1);
+        };
+
+        // Append the "Delete" button to the cell
+        cell5.appendChild(deleteButton);
     }
-</script>
-<script>
     // Function to calculate the initial count of items
-    function initializeItemCount() {
-        var table = document.getElementById('wishlistItems').getElementsByTagName('tbody')[0];
-        return table.rows.length;
-    }
 
     var itemCount = initializeItemCount();
 
-    function addRow() {
-        var table = document.getElementById('wishlistItems').getElementsByTagName('tbody')[0];
-        var newRow = table.insertRow();
-
-        newRow.innerHTML =
-            '<td><input type="text" name="items[' + itemCount + '].itemName" required></td>' +
-            '<td><input type="number" name="items[' + itemCount + '].itemPrice" required></td>' +
-            '<td><input type="text" name="items[' + itemCount + '].description" required></td>' +
-            '<td><input type="text" name="items[' + itemCount + '].link" required></td>';
-
-        itemCount++;
-    }
 
       function markForDeletion(button, index) {
         // Find the table row (tr) to hide

@@ -4,7 +4,16 @@
     <meta charset="UTF-8">
     <title>Wishlist Dashboard</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
+.logo {
+    font-family: 'Dancing Script', cursive; /* Example script font */
+    font-size: 200px; /* Increased font size */
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    color: #ffffff; /* White color */
+}
         body {
             display: flex;
             justify-content: center;
@@ -20,47 +29,51 @@
             line-height: 1.6;
         }
 
-        .dashboard-container {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            position: relative; /* Add position */
-            left: 100px; /* Adjust the right value to move more to the right */
-        }
+.dashboard-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 0px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative; /* Add position */
+    top: -60px; /* Adjust this value to move it further up */
+    left: 100px; /* Adjust the right value to move more to the right */
+}
 
-        .welcome-heading {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #ff1493;
-            text-transform: uppercase;
-        }
+.welcome-heading {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #ff1493;
+    text-transform: uppercase;
+}
 
 .money-counter-title {
     color: #ff1493; /* Bright pink color */
-    margin-bottom: 10px;
+    margin-bottom: 30px;
+
 }
        .piggybank-container {
             position: absolute;
-            top: 10px;
+            top: 30px;
             right: 50px;
             text-align: center;
         }
 
         .piggybank {
-    width: 200px; /* Increase width as needed */
-    height: auto; /* Maintain aspect ratio */
+    width: 200px;
+    height: auto;
 }
-       .money-counter-container {
-    border: 1px solid #fff; /* Thin white border */
+.money-counter-container {
+    border: 3px solid #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 15px;
     text-align: center;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow */
-    position: absolute; /* Change to absolute positioning */
-    top: 20px; /* Adjust top positioning */
-    right: 20px; /* Adjust right positioning */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    width: 400px;
 }
 
 .savings-display {
@@ -78,25 +91,37 @@
     border: 1px solid #ddd;
 }
 
-    .create-wishlist-btn {
-      display: block;
-      width: 200px;
-      margin: 0 auto;
-      text-align: center;
-    }
+.create-wishlist-btn {
+    display: block;
+    width: 200px;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #ffcccc; /* Light pink color */
+    color: #333; /* Text color */
+    padding: 6px 12px; /* Padding for the button */
+    font-size: 14px; /* Font size */
+    font-weight: 400;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none; /* Remove underlining */
+}
+
    .wishlists-container {
             padding: 10px;
             margin-top: 20px;
             background-color: #fff;
-            border-radius: 8px;
+            border-radius: 0px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 90%;
             max-width: 400px;
             margin-left: 400px;
             margin-right: 400px;
             position: relative;
-            right: 100px;
+            top: -80px;
+            right: 200px;
             color: #ff1493;
+
         }
 
         .wishlist-content {
@@ -119,18 +144,168 @@
 .negative-difference {
     color: red;
 }
+.highest-rated-item {
+    border: 3px solid #fff;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 192, 203, 0.5);
+    border-radius: 0; /* Remove border-radius to make it square */
+    margin: auto;
+    position: absolute;
+    top: 450px; /* Adjust the top position to move it further down */
+    right: 40px;
+}
+
+.star-image {
+    width: 200px; /* Adjust the width as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.highest-rated-item h3 {
+    color: #ff1493;
+    margin-top: 10px;
+    margin-bottom: 5px; /* Reduce space between the title and the text underneath */
+}
+
+/* Style the text underneath */
+.highest-rated-item p {
+    margin-top: 30px
+    margin-bottom: 30px;
+<!--    margin: 5px 0; /* Reduce space between the text and other elements */-->
+}
+.discount-codes-container {
+    color: #ff1493; /* Pink color */
+<!--    background: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */-->
+    background: transparent;
+    border: 3px solid #fff;
+    padding: 20px;
+    margin: 0; /* Remove the previous margin-top and centering properties */
+    border-radius: 0px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px; /* Adjust the width as needed */
+    position: absolute;
+    bottom: 50px; /* Place it at the bottom */
+    left: 200px; /* Increase this value to move it more to the right */
+}
+
+#discountCodesTable {
+    background: transparent;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#discountCodesTable th, #discountCodesTable td {
+    background: transparent;
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#discountCodesTable th {
+    background: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+    border: 3px solid #fff; /* Thick white border */
+}
+
+.returns-container {
+    color: #ff1493; /* Pink color */
+    background: transparent; /* Semi-transparent white background */
+    border: 3px solid #fff; /* Thick white border */
+    padding: 20px;
+    margin: 0; /* Remove the previous margin-top and centering properties */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px; /* Adjust the width as needed */
+    position: absolute;
+    bottom: 50px; /* Place it at the bottom */
+    left: 900px; /* Increase this value to move it more to the right */
+}
+
+#returnsTable {
+    background: transparent;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#returnsTable th, #returnsTable td {
+    background: transparent;
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#returnsTable th {
+    background: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+    border: 3px solid #fff; /* Thick white border */
+    color: #ff1493; /* Pink color */
+}
+
+#addReturnButton {
+    display: block;
+    width: 200px;
+    margin: 20px auto 0;
+    background-color: #ffcccc; /* Light pink color */
+    color: #333; /* Text color */
+    padding: 6px 12px; /* Padding for the button */
+    font-size: 14px; /* Font size */
+    font-weight: 400;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none; /* Remove underlining */
+}
 
     </style>
 </head>
 <body>
+
+<div class="logo">
+    Moneta
+</div>
 <div class="dashboard-container">
-    <h1 class="welcome-heading">Welcome to Moneta, <span th:text="${username}"></span>!</h1>
+    <h1 class="welcome-heading">Welcome To The Dash, <span th:text="${username}"></span>!</h1>
     <p th:text="${message}"></p>
     <a th:href="@{/wishlist/create}" class="btn btn-primary create-wishlist-btn">Create a New Wishlist</a>
 </div>
 
+<div class="discount-codes-container">
+    <h2>Discount Codes</h2>
+    <table id="discountCodesTable">
+        <thead>
+        <tr>
+            <th>Store Name</th>
+            <th>Promo Code</th>
+            <th>Click to Copy!</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <button id="addPromoCodeButton">Add Promo Code</button>
+</div>
+
+<div class="returns-container">
+    <h2>Returns</h2>
+    <table id="returnsTable">
+        <thead>
+        <tr>
+            <th>Item to Return</th>
+            <th>Date Purchased</th>
+            <th>Return Period (Days)</th>
+            <th>Days Left to Return</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <button id="addReturnButton">Add Item to Return</button>
+</div>
 <div class="money-counter-container">
-    <h2 class="money-counter-title">Money Counter</h2>
+    <h2 class="money-counter-title">Piggy Bank</h2>
     <img th:src="@{cartoon-piggy.png}" alt="Piggybank" class="piggybank" />
 
 
@@ -143,18 +318,6 @@
         <input type="number" id="savedAmount" name="savedAmount" placeholder="Enter saved amount" style="display:none;">
         <button type="submit" id="save-button" style="display:none;">Save</button>
     </form>
-
-
-<!--    <div class="savings-input" style="display:none;">-->
-<!--        <label for="savings">Savings Amount:</label>-->
-<!--        <input type="number" id="savings" name="savings" min="0" step="0.01" placeholder="Enter saved amount" />-->
-<!--        <button onclick="saveAndHideUpdateField()">Save</button>-->
-<!--    </div>-->
-
-<!--    <form action="/save-saved-amount" method="post" id="savings-form">-->
-<!--        <input type="number" id="savedAmount" name="savedAmount" placeholder="Enter saved amount" style="display:none;">-->
-<!--        <button type="button" id="update-button" onclick="toggleUpdateField()">Update</button>-->
-<!--    </form>-->
 
     <div class="total-item-price-display">
         <span>Total Item Price: <span th:text="${totalItemPrice}"></span></span>
@@ -174,7 +337,15 @@
             <a th:href="@{'/wishlist/edit/' + ${wishlist.id}}">(Edit)</a>
         </li>
     </ul>
-</div>s
+</div>
+
+<div class="highest-rated-item">
+    <h3>Highest Rated Item</h3>
+    <img src="star.png" alt="Star Image" class="star-image">
+    <p>Name: <span th:text="${highestRatedItem.itemName}"></span></p>
+    <p>Rating: <span th:text="${highestRatedItem.rating}"></span></p>
+    <p>Description: <span th:text="${highestRatedItem.description}"></span></p>
+</div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -197,18 +368,23 @@
     // Function to save savings to local storage and display it
     function saveAndShowSavings(value) {
         localStorage.setItem('savedAmount', value);
-        document.getElementById('display-savings').textContent = value;
+        document.getElementById('display-savings').textContent = '$' + value; // Display with '$' symbol
     }
 
-<!--    // Function to load savings from local storage-->
-<!--    function loadSavingsFromLocal() {-->
-<!--        var savedAmount = localStorage.getItem('savedAmount');-->
-<!--        if (savedAmount) {-->
-<!--            document.getElementById('savings').value = savedAmount;-->
-<!--            document.getElementById('display-savings').textContent = savedAmount;-->
-<!--        }-->
-<!--    }-->
+    // Function to load savings from local storage
+    function loadSavingsFromLocal() {
+        var savedAmount = localStorage.getItem('savedAmount');
+        if (savedAmount) {
+            document.getElementById('display-savings').textContent = '$' + savedAmount; // Display with '$' symbol
+        }
+    }
+
+    // When the page loads
+    window.onload = function() {
+        loadSavingsFromLocal();
+    };
 </script>
+
 <script>
     function showUpdateField() {
         document.getElementById('savedAmount').style.display = 'inline';
@@ -229,22 +405,85 @@
         saveButton.style.display = saveButton.style.display === 'none' ? 'inline' : 'none';
     }
 
-        function saveToLocalStorage() {
+    function saveToLocalStorage() {
         var savedAmountValue = document.getElementById('savedAmount').value;
         localStorage.setItem('savedAmount', savedAmountValue);
     }
 
-        function loadSavingsFromLocal() {
-        var savedAmount = localStorage.getItem('savedAmount');
-        if (savedAmount) {
-            document.getElementById('display-savings').textContent = savedAmount;
-        }
-    }
+    window.onload = function() {
+        loadSavingsFromLocal();
+        hideUpdateField();
+    };
 
-        window.onload = function() {
-            loadSavingsFromLocal();
-            hideUpdateField();
-        };
+    document.addEventListener('DOMContentLoaded', function () {
+        const tableBody = document.querySelector('#discountCodesTable tbody');
+
+        // Function to add a new row to the table
+        function addDiscountCodeRow(storeName, promoCode) {
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td><input type="text" class="store-name-input" value="${storeName}" placeholder="Enter store name"></td>
+                <td><input type="text" class="promo-code-input" value="${promoCode}" placeholder="Enter promo code"></td>
+                <td><button class="copy-button">Copy</button></td>
+            `;
+            tableBody.appendChild(newRow);
+
+            // Add copy functionality to the new row's button
+            const copyButton = newRow.querySelector('.copy-button');
+            copyButton.addEventListener('click', function (event) {
+                event.preventDefault(); // Prevent the default button click behavior
+                const promoCodeInput = newRow.querySelector('.promo-code-input');
+                copyToClipboard(promoCodeInput.value);
+                alert('Promo code copied: ' + promoCodeInput.value);
+            });
+        }
+
+        // Function to copy text to clipboard
+        function copyToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+        }
+
+        // Example: Add initial discount codes to the table
+        addDiscountCodeRow('Store 1', 'CODE123');
+        addDiscountCodeRow('Store 2', 'DISCOUNT456');
+
+        addPromoCodeButton.addEventListener('click', function () {
+            addDiscountCodeRow('', ''); // Add an empty row
+        });
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+    const returnsTableBody = document.querySelector('#returnsTable tbody');
+    const addReturnButton = document.querySelector('#addReturnButton');
+
+    addReturnButton.addEventListener('click', function () {
+        // Add a new row to the returns table
+        addReturnRow("Item Name", "2023-01-01", 30); // Example values
+    });
+
+    // Function to add a new row to the returns table
+    function addReturnRow(itemName, datePurchased, returnPeriod) {
+        const newRow = document.createElement('tr');
+        const currentDate = new Date();
+        const returnDate = new Date(datePurchased);
+        returnDate.setDate(returnDate.getDate() + returnPeriod);
+        const daysLeft = Math.max(0, Math.ceil((returnDate - currentDate) / (1000 * 60 * 60 * 24)));
+
+        newRow.innerHTML = `
+            <td>${itemName}</td>
+            <td>${datePurchased}</td>
+            <td>${returnPeriod}</td>
+            <td style="color: #ff0000;">${returnDate.toDateString()}</td>
+        `;
+        returnsTableBody.appendChild(newRow);
+    }
+    });
+    });
 
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

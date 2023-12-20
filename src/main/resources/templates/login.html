@@ -2,36 +2,67 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
   <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f8f8;
-            text-align: center;
-            padding-top: 50px;
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e6d0ff; /* Lighter pastel purple background */
+    background-image: radial-gradient(white 10%, transparent 10%),
+                      radial-gradient(white 10%, transparent 10%);
+    background-size: 30px 30px;
+    background-position: 0 0, 15px 15px;
+    text-align: center;
+    padding-top: 50px;
+    max-width: 800px; /* Increased maximum width of the body content */
+    margin: auto; /* Center the body content */
+}
+
+
+
+        /* Adjust vertical alignment */
+        .login-container-wrapper {
+            width: 100%; /* Take full width */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to start to allow for the shift */
+            padding-top: 10%; /* Shifts the login container up */
         }
 
         .login-container {
             display: inline-block;
-            background-color: #ffc0cb; /* Pink background */
-            padding: 20px;
+            background-color: #ffffff; /* White background */
+            padding: 40px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            margin: auto;
+            width: 30%;
+            min-width: 300px;
         }
 
         .login-field {
-            margin: 10px 0;
+            margin: 15px 0; /* Increased margin */
         }
 
         .login-field input {
-            padding: 8px;
+            padding: 10px; /* Increased padding */
             border-radius: 4px;
             border: 1px solid #ddd;
+            width: 100%; /* Full width */
         }
 
         .login-title {
-            color: #333;
-            margin-bottom: 20px;
+            color: #ffadc6; /* Pastel pink color */
+            font-family: 'Brush Script MT', cursive; /* Script font */
+            margin-bottom: 30px; /* Increased margin */
+        }
+
+        .moneta-logo {
+            font-family: 'Dancing Script', cursive;
+            font-size: 100px;
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffffff;
         }
     </style>
 </head>
@@ -52,5 +83,14 @@
     </div>
   </form>
 </div>
+
+<div class="moneta-logo">
+  Moneta
+</div>
+
 </body>
 </html>
+
+
+
+

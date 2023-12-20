@@ -31,24 +31,30 @@ public class WishlistController {
         }
 
         List<Wishlist> wishlists = wishlistService.getAllWishlists();
-        double totalItemPrice = calculateTotalItemPrice(wishlists);
+        Wishlist.Item highestRatedItem = wishlistService.findHighestRatedItem();
+
+        // Update the totalItemPrice for each wishlist
+        for (Wishlist wishlist : wishlists) {
+            wishlist.updateTotalItemPrice();
+        }
+
         double savedAmount = wishlistService.getSavedAmountFromUser(request);
+        double totalItemPrice = wishlists.stream().mapToDouble(Wishlist::getTotalItemPrice).sum();
         double difference = savedAmount - totalItemPrice;
-        model.addAttribute("username", username);  // Add username to model
-        model.addAttribute("message", "Welcome to Moneta, " + username + "!");
+
+        model.addAttribute("username", username);
+        model.addAttribute("message", "Click the below link to create a new wishlist" + "!");
         model.addAttribute("wishlists", wishlists);
         model.addAttribute("newWishlist", new Wishlist());
         model.addAttribute("newItem", new WishlistItem());
-        model.addAttribute("totalItemPrice", totalItemPrice);
         model.addAttribute("difference", difference);
         model.addAttribute("savedAmount", savedAmount);
-
-        System.out.println(savedAmount);
-        System.out.println(totalItemPrice);
-        System.out.println(difference);
+        model.addAttribute("highestRatedItem", highestRatedItem);
+        model.addAttribute("totalItemPrice", totalItemPrice);
 
         return "dashboard";
     }
+
 
     @PostMapping("/save-saved-amount")
     public String saveSavedAmount(HttpServletRequest request, @RequestParam("savedAmount") double savedAmount) {

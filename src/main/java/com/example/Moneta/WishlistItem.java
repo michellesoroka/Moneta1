@@ -56,6 +56,7 @@ public class WishlistItem {
     public static double getitemPrice(Wishlist.Item item) {
         return itemPrice;
     }
+
 }
 
 

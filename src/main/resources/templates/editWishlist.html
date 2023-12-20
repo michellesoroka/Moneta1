@@ -87,6 +87,25 @@
         color: #999; /* Optional: Change color to indicate the item is crossed out */
     }
 
+    .btn-underline {
+ display: inline-block;
+        padding: 6px 12px;
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        color: #333;
+        background-color: #fff;
+        border-color: #ccc;
+    }
+
 </style>
 
 <form th:action="@{/wishlist/update}" th:object="${editWishlist}" method="post">
@@ -107,20 +126,28 @@
       <th>Price</th>
       <th>Description</th>
       <th>Link</th>
-      <th>Delete</th>
       <th>Purchased?</th>
+      <th>Rating</th>
+      <th>Delete</th>
+
     </tr>
     </thead>
     <tbody>
     <tr th:each="item, iterStat : *{items}" th:with="index=${iterStat.index}">
-      <td><input type="text" th:field="*{items[__${iterStat.index}__].itemName}"/></td>
-      <td><input type="number" th:field="*{items[__${iterStat.index}__].itemPrice}"/></td>
-      <td><input type="text" th:field="*{items[__${iterStat.index}__].description}"/></td>
-      <td><input type="text" th:field="*{items[__${iterStat.index}__].link}"/></td>
+      <td><input type="text" th:field="*{items[__${iterStat.index}__].itemName}" /></td>
+      <td><input type="number" th:field="*{items[__${iterStat.index}__].itemPrice}" /></td>
+      <td><input type="text" th:field="*{items[__${iterStat.index}__].description}" /></td>
+      <td>
+        <input type="text" th:field="*{items[__${iterStat.index}__].link}" placeholder="Enter link"/>
+        <a th:href="@{{${item.link}}}" th:if="${!#strings.isEmpty(item.link)}" target="_blank">Visit</a>
+      </td>
+      <td><button type="button" onclick="crossOutRow(this)">Cross Out</button></td>
+      <td>
+        <input type="number" th:field="*{items[__${iterStat.index}__].rating}" min="1" max="5" />
+      </td>
       <td>
         <button type="button" th:onclick="'markForDeletion(this, ' + ${index} + ');'">Delete</button>
       </td>
-      <td><button type="button" onclick="crossOutRow(this)">Cross Out</button></td>
     </tr>
     </tbody>
   </table>
