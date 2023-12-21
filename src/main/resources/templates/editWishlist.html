@@ -2,45 +2,44 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Edit Wishlist</title>
-  <!-- Include any CSS or JavaScript here -->
 </head>
 <body>
 <h2>Edit Wishlist: <span th:text="${editWishlist.name}"></span></h2>
 
 <style>
   body {
-    position: relative; /* Make body a relative container for absolute positioning */
+    position: relative;
     align-items: center;
     background-color: #ccffcc;
     background-image: radial-gradient(#fff 15%, transparent 16%), radial-gradient(#fff 15%, transparent 16%);
     background-size: 30px 30px;
     font-family: 'Monaco', monospace;
     color: #333;
-    padding-top: 60px; /* Add padding to prevent overlapping with the button */
+    padding-top: 60px;
 }
 
 table {
     width: 50%;
     border-collapse: collapse;
-    background-color: white; /* White background for the table */
-    border: 1px solid #ddd; /* Light grey border for the table */
+    background-color: white;
+    border: 1px solid #ddd;
     margin-top: 20px;
 }
 
 th, td {
-    border: 1px solid #ddd; /* Light grey border for cells */
+    border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
 }
 
 th {
-    background-color: #ccffcc; /* Light pastel green background for header */
+    background-color: #ccffcc;
 }
 
      .back-to-dashboard {
         position: absolute;
         top: 10px;
-        right: 10px; /* Position at the upper right corner */
+        right: 10px;
     }
  .btn {
         display: inline-block;
@@ -59,12 +58,11 @@ th {
         border-radius: 4px;
         color: #333;
         background-color: #fff;
-        border-color: #ccc;
+        border: 2px solid #000;
         text-decoration: none;
     }
-
 .delete-button {
-    display: inline-block;
+    display: block; /* Change to block display to take full width */
     font-family: 'Monaco', monospace;
     width: auto; /* Allow the button to expand to its content */
     color: #333; /* Text color */
@@ -75,7 +73,11 @@ th {
     border-radius: 4px;
     cursor: pointer;
     text-decoration: none; /* Remove underlining */
+    position: absolute; /* Use absolute positioning */
+    bottom: 0; /* Align to the bottom of the container */
+    right: 0; /* Align to the right side of the container */
 }
+
 
 .btn:hover {
     color: #333;
@@ -100,9 +102,12 @@ th {
 }
 
 .crossed-out, .crossed-out input {
+    font-family: 'Monaco', monospace;
     text-decoration: line-through;
     color: #999; /* Optional: Change color to indicate the item is crossed out */
 }
+
+
 
 
 </style>
@@ -133,19 +138,21 @@ th {
     </thead>
     <tbody>
     <tr th:each="item, iterStat : *{items}" th:with="index=${iterStat.index}">
-      <td><input type="text" th:field="*{items[__${iterStat.index}__].itemName}" /></td>
-      <td><input type="number" th:field="*{items[__${iterStat.index}__].itemPrice}" /></td>
-      <td><input type="text" th:field="*{items[__${iterStat.index}__].description}" /></td>
+      <td><input type="text" th:field="*{items[__${iterStat.index}__].itemName}"/></td>
+      <td><input type="number" th:field="*{items[__${iterStat.index}__].itemPrice}"/></td>
+      <td><input type="text" th:field="*{items[__${iterStat.index}__].description}"/></td>
       <td>
         <input type="text" th:field="*{items[__${iterStat.index}__].link}" placeholder="Enter link"/>
         <a th:href="@{{${item.link}}}" th:if="${!#strings.isEmpty(item.link)}" target="_blank">Visit</a>
       </td>
-      <td><button type="button" onclick="crossOutRow(this)">Cross Out</button></td>
       <td>
-        <input type="number" th:field="*{items[__${iterStat.index}__].rating}" min="1" max="5" />
+        <button type="button" class="btn" onclick="crossOutRow(this)">Cross Out</button>
       </td>
       <td>
-        <button type="button" th:onclick="'markForDeletion(this, ' + ${index} + ');'">Delete</button>
+        <input type="number" th:field="*{items[__${iterStat.index}__].rating}" min="0" max="5"/>
+      </td>
+      <td>
+        <button type="button" class= "btn" th:onclick="'markForDeletion(this, ' + ${index} + ');'">Delete</button>
       </td>
     </tr>
     </tbody>
@@ -235,6 +242,8 @@ th {
             });
         }
     }
+
+
 </script>
 
 <a href="/dashboard" class="btn back-to-dashboard">Back to Dashboard</a>

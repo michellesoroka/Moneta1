@@ -31,19 +31,13 @@ public class WishlistService {
         return wishlistRepository.findById(id).orElse(null);
     }
 
-//    public void updateWishlist(Wishlist wishlist) {
-//        wishlistRepository.save(wishlist);
-//    }
-
     public Wishlist saveOrUpdateWishlist(Wishlist wishlist) {
         wishlist.updateTotalItemPrice();
         return wishlistRepository.save(wishlist);
     }
 
     public void updateWishlist(Wishlist wishlist) {
-        List<Wishlist.Item> updatedItems = wishlist.getItems().stream()
-                .filter(item -> !item.isDeleted())
-                .collect(Collectors.toList());
+        List<Wishlist.Item> updatedItems = wishlist.getItems().stream().filter(item -> !item.isDeleted()).collect(Collectors.toList());
         wishlist.setItems(updatedItems);
         wishlist.updateTotalItemPrice();
 
@@ -56,20 +50,17 @@ public class WishlistService {
             try {
                 return Double.parseDouble(savedAmountObj.toString());
             } catch (NumberFormatException e) {
-                // Handle the parsing error
                 return 0.0;
             }
         }
-        return 0.0; // Default value if no amount is saved
+        return 0.0;
     }
 
 
     public Wishlist.Item findHighestRatedItem() {
         List<Wishlist> wishlists = wishlistRepository.findAll();
 
-        Optional<Wishlist.Item> highestRatedItem = wishlists.stream()
-                .flatMap(wishlist -> wishlist.getItems().stream())
-                .max(Comparator.comparing(Wishlist.Item::getRating));
+        Optional<Wishlist.Item> highestRatedItem = wishlists.stream().flatMap(wishlist -> wishlist.getItems().stream()).max(Comparator.comparing(Wishlist.Item::getRating));
 
         return highestRatedItem.orElse(null);
     }

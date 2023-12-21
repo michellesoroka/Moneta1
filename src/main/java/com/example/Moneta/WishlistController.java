@@ -30,13 +30,13 @@ public class WishlistController {
     public String showDashboard(Model model, HttpServletRequest request) {
         String username = (String) request.getSession().getAttribute("username");
         if (username == null || username.isEmpty()) {
-            return "redirect:/login";  // Redirect to login if username not found in session
+            return "redirect:/login";
         }
 
         List<Wishlist> wishlists = wishlistService.getAllWishlists();
         Wishlist.Item highestRatedItem = wishlistService.findHighestRatedItem();
 
-        // Update the totalItemPrice for each wishlist
+
         for (Wishlist wishlist : wishlists) {
             wishlist.updateTotalItemPrice();
         }
@@ -46,7 +46,7 @@ public class WishlistController {
         double difference = savedAmount - totalItemPrice;
 
         model.addAttribute("username", username);
-        model.addAttribute("message", "Click the below link to create a new wishlist" + "!");
+        model.addAttribute("message", "Click the button below to get started!");
         model.addAttribute("wishlists", wishlists);
         model.addAttribute("newWishlist", new Wishlist());
         model.addAttribute("newItem", new WishlistItem());
@@ -73,14 +73,14 @@ public class WishlistController {
 
     @GetMapping("/login")
     public String showLoginPage() {
-        return "login";  // Return the login page view
+        return "login";
     }
 
     @PostMapping("/login")
     public String handleLogin(@RequestParam String username, @RequestParam String password, RedirectAttributes redirectAttributes, HttpServletRequest request) {
         // Simple check with hardcoded credentials
         if ("michellesoroka".equals(username) && "moneta".equals(password)) {
-            request.getSession().setAttribute("username", "Michelle"); // Store username in session
+            request.getSession().setAttribute("username", "Michelle");
             return "redirect:/dashboard";
         } else {
             redirectAttributes.addFlashAttribute("loginError", "Invalid username or password");
@@ -114,7 +114,7 @@ public class WishlistController {
         Wishlist wishlist = wishlistOpt.get();
         wishlist.setTotalItemPrice(wishlist.calculateTotalItemPrice());
 
-        // Ensure that editWishlist is not null in the model
+
         if (!model.containsAttribute("editWishlist")) {
             model.addAttribute("editWishlist", wishlist);
         }
@@ -135,7 +135,7 @@ public class WishlistController {
             return "redirect:/dashboard";
         }
 
-        wishlist.getItems().add(new Wishlist.Item()); // Add a new blank item
+        wishlist.getItems().add(new Wishlist.Item());
 
         // Ensure that editWishlist is not null in the model
         if (!model.containsAttribute("editWishlist")) {
@@ -148,7 +148,6 @@ public class WishlistController {
     @DeleteMapping("/wishlist/delete/{id}")
     public ResponseEntity<String> deleteWishlist(@PathVariable String id) {
         try {
-            // Find the wishlist by ID and delete it (including all items)
             wishlistRepository.deleteById(id);
             return ResponseEntity.ok("Wishlist deleted successfully.");
         } catch (Exception e) {

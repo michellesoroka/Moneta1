@@ -5,44 +5,44 @@
     <title>Create Wishlist</title>
     <style>
         body {
-        position: relative; /* Make body a relative container for absolute positioning */
+        position: relative;
         align-items: center;
         background-color: #B0E0E6;
         background-image: radial-gradient(#fff 15%, transparent 16%), radial-gradient(#fff 15%, transparent 16%);
         background-size: 25px 25px;
         font-family: 'Monaco', monospace;
         color: #333;
-        padding-top: 60px; /* Add padding to prevent overlapping with the button */
+        padding-top: 60px;
     }
       table {
         width: 50%;
         border-collapse: collapse;
-        background-color: white; /* White background for the table */
-        border: 1px solid #ddd; /* Light grey border for the table */
+        background-color: white;
+        border: 1px solid #ddd;
         margin-top: 20px;
     }
 
     th, td {
-        border: 1px solid #ddd; /* Light grey border for cells */
+        border: 1px solid #ddd;
         padding: 8px;
         text-align: left;
     }
 
     th {
-        background-color: #f2f2f2; /* Light grey background for header */
+        background-color: #f2f2f2;
     }
 
      .back-to-dashboard {
         position: absolute;
         top: 10px;
-        right: 10px; /* Position at the upper right corner */
+        right: 10px;
     }
 .btn {
     display: inline-block;
     padding: 6px 12px;
     margin-bottom: 0;
-    font-size: 14px; /* Match the font size to 14px */
-    font-family: 'Monaco', monospace; /* Match the font family */
+    font-size: 14px;
+    font-family: 'Monaco', monospace;
     font-weight: 400;
     line-height: 1.42857143;
     text-align: center;
@@ -79,16 +79,17 @@
     background-color: #B0E0E6;
 }
 
+
+
     </style>
 </head>
 <body>
 <h1>Create a New Wishlist</h1>
 <form th:action="@{/wishlist/save}" th:object="${newWishlist}" method="post">
-    <!-- Field for wishlist name -->
+
     <label for="wishlistName">Wishlist Name:</label>
     <input type="text" id="wishlistName" th:field="*{name}" required><br><br>
 
-    <!-- Table for wishlist items -->
     <table id="wishlistItems">
         <thead>
         <tr>
@@ -106,15 +107,18 @@
             <td><input type="text" th:field="*{items[__${index}__].itemPrice}" required></td>
             <td><input type="text" th:field="*{items[__${index}__].description}" required></td>
             <td><input type="text" th:field="*{items[__${index}__].link}" required></td>
-            <td><button type="button" class="btn" th:onclick="'markForDeletion(this, ' + ${index} + ');'">Delete</button></td>
+            <td>
+                <button type="button" class="btn" th:onclick="'markForDeletion(this, ' + ${index} + ');'">Delete
+                </button>
+            </td>
         </tr>
 
         </tbody>
     </table>
 
-    <!-- Button to add new row for wishlist item -->
-    <button type="button" class="btn" onclick="addRow()">Add Item</button><br><br>
-    <input type="submit" class="btn" value="Create Wishlist">
+    <button type="button" class="btn" onclick="addRow()">Add Item</button>
+    <br><br>
+    <input type="submit" class="btn" value="Create Wishlist" onclick="submitForm()">
 </form>
 
 <script>
@@ -131,14 +135,13 @@
         var cell2 = newRow.insertCell(1);
         var cell3 = newRow.insertCell(2);
         var cell4 = newRow.insertCell(3);
-        var cell5 = newRow.insertCell(4); // Add a new cell for the "Delete" button
+        var cell5 = newRow.insertCell(4);
 
         cell1.innerHTML = '<input type="text" th:field="*{items[__${#lists.size(newWishlist.items)}__].itemName}" required>';
         cell2.innerHTML = '<input type="text" th:field="*{items[__${#lists.size(newWishlist.items)}__].itemPrice}" required>';
         cell3.innerHTML = '<input type="text" th:field="*{items[__${#lists.size(newWishlist.items)}__].description}" required>';
         cell4.innerHTML = '<input type="text" th:field="*{items[__${#lists.size(newWishlist.items)}__].link}" required>';
 
-        // Create a "Delete" button element
         var deleteButton = document.createElement('button');
         deleteButton.type = 'button';
         deleteButton.innerHTML = 'Delete';
@@ -147,26 +150,38 @@
             markForDeletion(this, table.rows.length - 1);
         };
 
-        // Append the "Delete" button to the cell
         cell5.appendChild(deleteButton);
     }
-    // Function to calculate the initial count of items
 
     var itemCount = initializeItemCount();
 
-
-      function markForDeletion(button, index) {
-        // Find the table row (tr) to hide
-        var row = button.parentNode.parentNode;
-        row.style.display = 'none';
-
-        // Create and append a hidden input to mark the item for deletion
-        var input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = 'items[' + index + '].deleted';
-        input.value = 'true';
-        row.appendChild(input);
+function submitForm() {
+        document.querySelector('form').submit();
     }
+
+    const createWishlistButton = document.querySelector('input[type="submit"]');
+    createWishlistButton.addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent the default form submission
+        submitForm(); // Call the custom submitForm() function
+    });
+
+  function markForDeletion(button, index) {
+
+    var row = button.parentNode.parentNode;
+
+    row.parentNode.removeChild(row);
+}
+
+<!--    row.style.display = 'none';-->
+
+<!--    // Create and append a hidden input to mark the item for deletion-->
+<!--    var input = document.createElement('input');-->
+<!--    input.type = 'hidden';-->
+<!--    input.name = 'items[' + index + '].deleted';-->
+<!--    input.value = 'true';-->
+<!--    row.appendChild(input);-->
+<!--}-->
+
 </script>
 <a href="/dashboard" class="btn back-to-dashboard">Back to Dashboard</a>
 </body>
